@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+
+    .index-div {
+        width: 53%;
+        margin-left: 23%;
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .txt {
+        font-family: 'Montserrat', sans-serif;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+
+    .h3,
+    .btn {
+        font-family: 'Acme';
+    }
+
+    .btn {
+        background-color: royalblue;
+        color: white;
+    }
+
+    .btn:hover {
+        border: 2px royalblue solid;
+        background-color: white;
+        color: royalblue;
+
+    }
+
+    @media screen and (min-width: 1024px) {
+        .index-div {
+            padding-left: 10%;
+            padding-right: 10%;
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+        .index-div {
+            width: auto;
+            margin-left: 0px;
+            padding-left: 5%;
+            padding-right: 5%;
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+    }
+
+</style>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-danger alert-dismissible fade show m-5 p-3" role="alert">
+    <strong>{{message}}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+{% if flg == -1 %}
+<div class="alert alert-danger alert-dismissible fade show m-5 p-3" role="alert">
+    <strong>CHECK IN FAILED!</strong> Try again later.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+
+{% if flg == 1 %}
+<div class="alert alert-success alert-dismissible fade show m-5 p-3" role="alert">
+    <strong>CHECKED IN!</strong> Your details have been sent to the host. You will be contacted shortly.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+
+<div class="index-div mt-5 mb-5 aniview fast" data-av-animation="slideInLeft">
+    <form class="pt-5 pb-5" action="{{ url_for('admin_login') }}" method="post">
+        <div class="text-center">
+            <p class="h3 mb-4">ADMIN LOGIN</p>
+        </div>
+        <div class="form-group">
+            <input type="text" id="user" name="user" class="form-control mb-4 p-0 txt" placeholder="Enter Admin Id">
+        </div>
+        <div class="form-group">
+            <input type="password" id="pass" name="pass" class="form-control mb-4 p-0 txt" placeholder="Enter Password">
+        </div>
+        <button class="btn btn-md btn-block my-3" type="submit">LOG IN</button>
+        <div class="text-center"><a href="{{url_for('check_in')}}">Back Home</a></div>
+    </form>
+</div>
+{% endblock %}

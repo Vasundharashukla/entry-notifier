@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+
+    .index-div {
+        width: 70%;
+        margin-left: 14%;
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .txt {
+        font-family: 'Montserrat', sans-serif;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+
+    .h3,
+    .btn {
+        font-family: 'Acme';
+    }
+
+    .btn {
+        background-color: royalblue;
+        color: white;
+        width: 50%;
+        margin-left: 24%;
+    }
+
+    .btn:hover {
+        border: 2px royalblue solid;
+        background-color: white;
+        color: royalblue;
+
+    }
+
+    @media screen and (min-width: 1024px) {
+        .index-div {
+            padding-left: 10%;
+            padding-right: 10%;
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+        .index-div {
+            width: auto;
+            margin-left: 0px;
+            padding-left: 5%;
+            padding-right: 5%;
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+    }
+    @media screen and (max-width: 600px) {
+        .btn {
+            width: 100%;
+            margin-left: 0px;
+        }
+    }
+
+</style>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-danger alert-dismissible fade show m-5 p-3" role="alert">
+    <strong>{{message}}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+{% if flg == -1 %}
+<div class="alert alert-danger alert-dismissible fade show m-5 p-3" role="alert">
+    <strong>CHECK IN FAILED!</strong> Try again later.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+
+{% if flg == 1 %}
+<div class="alert alert-success alert-dismissible fade show m-5 p-3" role="alert">
+    <strong>HOST REGISTERED!</strong> Mail and SMS notification sent.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+
+<div class="index-div mt-5 mb-5 aniview fast" data-av-animation="slideInLeft">
+    <form class="pt-5 pb-5" action="{{ url_for('register_host') }}" method="post">
+        <div class="text-center">
+            <p class="h3 mb-4">REGISTER NEW HOST</p>
+        </div>
+        <div class="form-group">
+            <input type="text" id="name" name="name" class="form-control mb-4 p-2 txt" placeholder="New Host Name" required>
+        </div>
+        <div class="form-group">
+            <input type="email" id="email" name="email" class="form-control mb-4 p-2 txt" placeholder="New Host E-mail" required>
+        </div>
+        <div class="form-group">
+            <input type="text" id="address" name="address" class="form-control mb-4 p-0 txt" placeholder="Enter Host Address">
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <select class="form-control mb-4 p-2 txt" id="code" name="code" required>
+                    <option value="null" selected>Country Code</option>
+                    {% for code in codes %}
+                    <option value="{{ code['dial_code'] }}">{{ code['name'] }} ({{ code['dial_code'] }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <input type="phone" id="phone" name="phone" class="form-control mb-4 p-2 txt" placeholder="10-digit Mobile Number" required>
+            </div>
+        </div>
+        <button class="btn btn-md btn-block my-3" type="submit">REGISTER NEW HOST</button>
+        <div class="text-center"><a href="{{url_for('admin_logout')}}">LogOut</a></div>
+    </form>
+</div>
+{% endblock %}

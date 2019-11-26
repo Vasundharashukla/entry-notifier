@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Entry Record Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Amaranth' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Acme' rel='stylesheet'>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+</head>
+<style>
+    
+    .txt{
+        border-bottom-color: black;
+        font-weight: 500;
+    }
+    
+    .head-div{
+        padding-top: 3%;
+        font-family: 'Raleway', sans-serif;
+    }
+    
+    .head-div h1{
+        color: royalblue;
+        font-size: 45px;
+    }
+    .main-div{
+/*        border: white 1px solid;*/
+/*        margin-top: 5%;*/
+    }
+    
+    @media screen and (max-width: 600px){
+        
+        .head-div{
+            padding-top: 15%;
+            padding-left: 2%;
+            padding-right: 2%;
+        }
+        
+        .head-div h1{
+            font-size: 40px;
+        }
+    }
+
+</style>
+<body>
+   <div class="text-center head-div aniview slow" data-av-animation="fadeIn">
+       <h1><b>ENTRY NOTIFIER</b></h1>
+        <h5>An application to notify you about your check in's &amp; check out's.</h5>
+   </div>
+   <div class="main-div container mx-10">
+       {% block content %} {% endblock %}
+   </div>
+    
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-aniview@1.0.2/dist/jquery.aniview.min.js"></script>
+<script>
+        $('#time-in').timepicker();
+        $('#time-out').timepicker();
+</script>
+<script>
+    var options = {
+        animateThreshold: 100,
+        scrollPollInterval: 20
+    }
+    $('.aniview').AniView(options);
+</script>
+</html>

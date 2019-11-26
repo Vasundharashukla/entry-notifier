@@ -1,0 +1,181 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+    .index-div {
+        width: 70%;
+        margin-left: 14%;
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .txt {
+        font-family: 'Montserrat', sans-serif;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+
+    .h3,
+    .btn {
+        font-family: 'Acme';
+    }
+
+    .btn {
+        background-color: royalblue;
+        color: white;
+    }
+    
+    .my-3{
+         width: 50%;
+         margin-left: 24%;
+    }
+
+    .btn:hover {
+        border: 2px royalblue solid;
+        background-color: transparent;
+        color: royalblue;
+
+    }
+
+    @media screen and (min-width: 1024px) {
+        .index-div {
+            padding-left: 10%;
+            padding-right: 10%;
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+        .index-div {
+            width: auto;
+            margin-left: 0px;
+            padding-left: 5%;
+            padding-right: 5%;
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+    }
+    @media screen and (max-width: 600px) {
+        .my-3 {
+            width: 100%;
+            margin-left: 0px;
+        }
+    }
+
+</style>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-danger alert-dismissible fade show m-5 p-3" role="alert">
+    <strong>{{message}}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+{% if flg == -1 %}
+<div class="alert alert-danger alert-dismissible fade show m-5 p-3" role="alert">
+    <strong>CHECK IN FAILED!</strong> Try again later.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+
+{% if flg == 1 %}
+<div class="alert alert-success alert-dismissible fade show m-5 p-3" role="alert">
+    <strong>CHECKED IN!</strong> Your details have been sent to the host. You will be contacted shortly.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+
+<div class="index-div mt-5 mb-5 aniview fast" data-av-animation="slideInLeft">
+    <form class="pt-5 pb-5" action="{{ url_for('check_in') }}" method="post">
+        <div class="text-center">
+            {% if flg == 0 %}
+            <p class="h3 mb-4">CHECK-IN DETAILS</p>
+            {% else %}
+            <p class="h3 mb-4">DETAILS YOU SUBMITTED</p>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {% if flg == 0 %}
+            <input type="text" id="name" name="name" class="form-control mb-4 p-2 txt" placeholder="Your Full Name" required>
+            {% else %}
+            <input type="text" id="name" name="name" class="form-control mb-4 p-2 txt" value="{{vals['name']}}" disabled>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {% if flg == 0 %}
+            <input type="email" id="email" name="email" class="form-control mb-4 p-2 txt" placeholder="Your E-mail" required>
+            {% else %}
+            <input type="email" id="email" name="email" class="form-control mb-4 p-2 txt" value="{{vals['email']}}" disabled>
+            {% endif %}
+        </div>
+        <div class="form-group row">
+            {% if flg == 0 %}
+            <div class="col-sm-6">
+                <select class="form-control mb-4 p-2 txt" id="code" name="code" required>
+                    <option value="null" selected>Country Code</option>
+                    {% for code in codes %}
+                    <option value="{{ code['dial_code'] }}">{{ code['name'] }} ({{ code['dial_code'] }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <input type="phone" id="phone" name="phone" class="form-control mb-4 p-2 txt" placeholder="10-digit Mobile Number" required>
+            </div>
+            {% else %}
+            <div class="col-sm-12">
+                <input type="phone" id="phone" name="phone" class="form-control mb-4 p-2 txt" value="{{vals['phone']}}" disabled>
+            </div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {% if flg == 0 %}
+            <select class="form-control mb-4 p-2 txt" id="host" name="host-phone" required>
+                <option value="null" selected>Select Your Host</option>
+                {% for i, j in hosts %}
+                <option value="{{ i }}">{{ j }}</option>
+                {% endfor %}
+            </select>
+            {% else %}
+            <input type="text" id="name" name="name" class="form-control mb-4 p-2 txt" value="{{host}}" disabled>
+            {% endif %}
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-6">
+                {% if flg == 0 %}
+                <input type="text" id="time-in" name="time-in" class="form-control mb-4 p-2 time-class txt" placeholder="Check-In Time" required>
+                {% else %}
+                <input type="text" id="time-i" name="time-in" class="form-control mb-4 time-class txt" value="{{vals['time-in']}}" disabled>
+                {% endif %}
+            </div>
+            <div class="col-sm-6">
+                {% if flg == 0 %}
+                <input type="text" id="time-out" name="time-out" class="form-control mb-4 p-2 time-class txt" placeholder="Check-Out Time" required>
+                {% else %}
+                <input type="text" id="time-ou" name="time-out" class="form-control mb-4 time-class txt" value="{{vals['time-out']}}" disabled>
+                {% endif %}
+            </div>
+        </div>
+        {% if flg == 0 %}
+        <button class="btn btn-md btn-block my-3" type="submit">CHECK IN</button>
+        <div class="text-center"><a href="{{url_for('admin_login')}}">Admin Login.</a></div>
+        <div class="text-center"><a href="{{url_for('check_out')}}">Already Checked In? Check out here.</a></div>
+        {% else %}
+        <div class="row">
+            <div class="col-sm-6">
+                <a href="{{ url_for('check_in')}}" class="btn btn-md btn-block my-4">BACK TO CHECK IN</a>
+            </div>
+            <div class="col-sm-6">
+                <a href="{{ url_for('check_out')}}" class="btn btn-md btn-block my-4">WANT TO CHECK OUT?</a>
+            </div>
+        </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
