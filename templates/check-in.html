@@ -52,7 +52,7 @@
 {% with messages = get_flashed_messages() %}
 {% if messages %}
 {% for message in messages %}
-<div class="alert {% if message != "LOGGED OUT!" %} alert-danger {% else %} alert-success {% endif %} alert-dismissible fade show m-5 p-3" role="alert">
+<div class="alert {% if message != 'LOGGED OUT!' %} alert-danger {% else %} alert-success {% endif %} alert-dismissible fade show m-5 p-3" role="alert">
     <strong>{{message}}</strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -81,7 +81,7 @@
 {% endif %}
 
 <div class="index-div mt-5 mb-5 aniview fast" data-av-animation="slideInLeft">
-    <form class="pt-5 pb-5" action="{{ url_for('check_in') }}" method="post">
+    <form class="pt-5 pb-5 custom-form" action="{{ url_for('check_in') }}" method="post">
         <div class="text-center">
             {% if flg == 0 %}
             <p class="h3 mb-4">CHECK-IN DETAILS</p>
@@ -106,7 +106,7 @@
         <div class="form-group row">
             {% if flg == 0 %}
             <div class="col-sm-6">
-                <select class="form-control mb-4 p-2 txt" id="code" name="code" required>
+                <select class="form-control mb-4 p-1 txt" id="code" name="code" required>
                     <option value="null" selected>Country Code</option>
                     {% for code in codes %}
                     <option value="{{ code['dial_code'] }}">{{ code['name'] }} ({{ code['dial_code'] }})</option>
@@ -124,8 +124,8 @@
         </div>
         <div class="form-group">
             {% if flg == 0 %}
-            <select class="form-control mb-4 p-2 txt" id="host" name="host-phone" required>
-                <option value="null" selected>Select Your Host</option>
+            <select class="form-control mb-4 p-1 txt" id="host" name="host-phone" required>
+                <option value="null" style="color: gray;" selected>Select Your Host</option>
                 {% for i, j in hosts %}
                 <option value="{{ i }}">{{ j }}</option>
                 {% endfor %}
