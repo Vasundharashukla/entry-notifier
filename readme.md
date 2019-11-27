@@ -51,7 +51,7 @@ As soon as the visitor opens the application a check in form appears. The visito
 
 - **User Checked In Demo**
 
-![check-in success](images/in-success.png "CHECK IN SUCCESS")
+![check-in success](images/in-success.jpg "CHECK IN SUCCESS")
 
 
 > The user has been asked to provide a checkout time in the check-in page according to the mentioned requirements. I have done a modification in this assignment using this checkout time. It might happen that a visitor checks out on the mentioned time but forgets to check out from the app. Taking into consideration this particular issue, I have created a **scheduler** that runs in the backend and executes a function at the mentioned checkout time. It checks the datbase and if the user has already checked out, the function terminates otherwise it performs the check out user and mails him notifying about the checkout. The scheduler has been implemented using APScheduler module in Python. This modification is useful because neither the host nor the visitor needs to worry if the visitor forgets to check out. It will be automatically done!
