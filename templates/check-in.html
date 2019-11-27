@@ -7,26 +7,9 @@
         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
-    .txt {
-        font-family: 'Montserrat', sans-serif;
-        border-top: none;
-        border-left: none;
-        border-right: none;
-    }
-
-    .h3,
-    .btn {
-        font-family: 'Acme';
-    }
-
     .btn {
         background-color: royalblue;
         color: white;
-    }
-    
-    .my-3{
-         width: 50%;
-         margin-left: 24%;
     }
 
     .btn:hover {
@@ -34,6 +17,11 @@
         background-color: transparent;
         color: royalblue;
 
+    }
+    
+    .my-3{
+         width: 50%;
+         margin-left: 24%;
     }
 
     @media screen and (min-width: 1024px) {
@@ -64,7 +52,7 @@
 {% with messages = get_flashed_messages() %}
 {% if messages %}
 {% for message in messages %}
-<div class="alert alert-danger alert-dismissible fade show m-5 p-3" role="alert">
+<div class="alert {% if message != "LOGGED OUT!" %} alert-danger {% else %} alert-success {% endif %} alert-dismissible fade show m-5 p-3" role="alert">
     <strong>{{message}}</strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
