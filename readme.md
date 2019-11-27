@@ -91,7 +91,7 @@ A workplace can have multiple hosts therefore the visitor will have the option t
 
 - **The Database**
 
-![firebase](images/database.png "FIREBASE")      
+![firebase](images/database.jpg "FIREBASE")      
 
 > As you can see, the data is stored as key value pairs. I have made phone number to be the key for each new host as it will be unique for every user. For the user data, each consists of 3 key value pairs which store the name, email and date of visit. Each date conists of a list of key-value pairs having the details of each and every check in. A list has been made for each data for each user because it enables us to store details of multiple check ins on a single day otherwise the keys would get re-written if the user does multiple check ins on the same day. As far as the host data is concerned, it is also stored based on mobile number and has three keys to store address, email and name.
 
