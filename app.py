@@ -22,8 +22,8 @@ mail_settings = {
     "MAIL_PORT": 465,
     "MAIL_USE_TLS": False,
     "MAIL_USE_SSL": True,
-    "MAIL_USERNAME": 'vasundharashukla799@gmail.com',
-    "MAIL_PASSWORD": 'gagan42talr#@'
+    "MAIL_USERNAME": '<your gmail id>',
+    "MAIL_PASSWORD": '<gmail password>'
 }
 
 app.config.update(mail_settings)
@@ -47,8 +47,8 @@ def send_message(msg, phone):
 
     # config sms api
     req_params = {
-    'apikey': 'OKFMCF55YZGNEIQ01JJ7OY8TY2MZ4N9I',
-    'secret': '7GULI867MEP4WDKB',
+    'apikey': '<way2sms api key>',
+    'secret': '<way2sms secret>',
     'usetype': 'stage',
     'phone': phone,
     'message': msg,
