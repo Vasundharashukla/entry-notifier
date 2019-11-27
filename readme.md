@@ -3,12 +3,12 @@
 The main motive of this venture was to create a software that can help a visitor check into an office without any kind of human intervention. The assignment aims
 at automating check in's and check out's at a workplace. The user just has to specify some of his personal details like name, email and phone number and other details like who does he want to meet, his check in and check out time. 
 
-
-
 ## Pre-requisites
 
 - Python 3.6 and pip should be preinstalled.
-- Read the Deployment and Testing section before usage.
+- Way2sms api and secret key.
+- A Google email account.
+- Read the [Deployment and Testing](https://github.com/Vasundharashukla/entry-notifier#deployment--testing) section carefully before usage.
 
 ## Technology Stack
 
@@ -106,10 +106,16 @@ To test/run the app locally follow the steps given below.
 ```python
 $ pip install -r requirements.txt
 ```
+
+- For sending emails, you need a gmail id and allow third party applications to access it. Before using it here disable your mail security [here](https://myaccount.google.com/lesssecureapps) to allow third party application access. If the application does not send mails even after this step, follow the instructions given [here](https://www.twilio.com/blog/2018/03/send-email-programmatically-with-gmail-python-and-flask.html).
+
+- Generate a way2sms api key from any valid indian mobile numbers and paste it in the send_message() method inside app.py. The way2sms free trial account allows you
+to send 25 messages. 
+
 - Make sure the internet connection you are using allows you to access the SMTP Port otherwise it may cause smtp errors and the application might crash while sending
 emails.
 
-- Goto the application directory through the terminal and set the environment variables as follows(as done on a windows system):
+- Goto the application directory through the terminal, set the environment variables and run the application as follows(as done on a windows system):
 
 ```python
 $ set FLASK_APP=app.py
@@ -130,6 +136,8 @@ This is only a test version of an check in entry notifier application which stil
 - Creating multiple admin accounts. Rights to change the admin password and a case of forgotten passwords may also be included.
 
 ## Credits
+
+The country phone codes have been borrowed from [this link](https://gist.github.com/Goles/3196253#gistcomment-1608494).
 
 Created and Developed By: Vasundhara Shukla  
 Contact Email: vasundharashukla98@gmail.com
