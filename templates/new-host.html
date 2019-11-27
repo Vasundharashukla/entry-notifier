@@ -79,33 +79,38 @@
 {% endif %}
 
 <div class="index-div mt-5 mb-5 aniview fast" data-av-animation="slideInLeft">
-    <form class="pt-5 pb-5" action="{{ url_for('register_host') }}" method="post">
+    <form class="pt-5 pb-5" action="{{ url_for('register_host') }}" method="post" id="form">
         <div class="text-center">
             <p class="h3 mb-4">REGISTER NEW HOST</p>
         </div>
         <div class="form-group">
-            <input type="text" id="name" name="name" class="form-control mb-4 p-2 txt" placeholder="New Host Name" required>
+            <input type="text" id="name" name="name" class="form-control mb-1 px-2 txt" placeholder="New Host Name" required>
+            <small class="error mb-4 pb-2 px-2"></small>
         </div>
         <div class="form-group">
-            <input type="email" id="email" name="email" class="form-control mb-4 p-2 txt" placeholder="New Host E-mail" required>
+            <input type="email" id="email" name="email" class="form-control mb-1 px-2 txt" placeholder="New Host E-mail" required>
+            <small class="error mb-4 pb-2 px-2"></small>
         </div>
         <div class="form-group">
-            <input type="text" id="address" name="address" class="form-control mb-4 p-0 txt" placeholder="Enter Host Address">
+            <input type="text" id="address" name="address" class="form-control mb-1 p-2 txt" placeholder="Enter Host Address">
+            <small class="error mb-4 pb-2 px-2"></small>
         </div>
         <div class="form-group row">
             <div class="col-sm-6">
-                <select class="form-control mb-4 p-2 txt" id="code" name="code" required>
+                <select class="form-control mb-1 px-2 txt" id="code" name="code" required>
                     <option value="null" selected>Country Code</option>
                     {% for code in codes %}
                     <option value="{{ code['dial_code'] }}">{{ code['name'] }} ({{ code['dial_code'] }})</option>
                     {% endfor %}
                 </select>
+                <small class="error mb-4 pb-2 px-2"></small>
             </div>
             <div class="col-sm-6">
-                <input type="phone" id="phone" name="phone" class="form-control mb-4 p-2 txt" placeholder="10-digit Mobile Number" required>
+                <input type="phone" id="phone" name="phone" class="form-control mb-1 px-2 txt" placeholder="10-digit Mobile Number" required>
+                <small class="error mb-4 pb-2 px-2"></small>
             </div>
         </div>
-        <button class="btn btn-md btn-block my-3" type="submit">REGISTER NEW HOST</button>
+        <button class="btn btn-md btn-block my-3" type="submit" id="submit-btn">REGISTER NEW HOST</button>
         <div class="text-center"><a href="{{url_for('admin_logout')}}">LogOut</a></div>
     </form>
 </div>

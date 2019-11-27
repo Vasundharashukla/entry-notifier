@@ -62,7 +62,7 @@
 {% endif %}
 
 <div class="index-div mt-5 mb-5 aniview fast" data-av-animation="slideInLeft">
-    <form class="pt-5 pb-5" action="{{ url_for('check_out') }}" method="post">
+    <form class="pt-5 pb-5" action="{{ url_for('check_out') }}" method="post" id="form">
         {% if flg == 0 %}
         <div class="text-center">
             <p class="h3 mb-4">CHECK OUT DETAILS</p>
@@ -70,25 +70,32 @@
         <div class="form-group row">
 
             <div class="col-sm-6">
-                <select class="form-control mb-4 p-2 txt" id="code" name="code" required>
+                <select class="form-control mb-1 px-2 txt" id="code" name="code" required>
                     <option value="null" selected>Country Code</option>
                     {% for code in codes %}
                     <option value="{{ code['dial_code'] }}">{{ code['name'] }} ({{ code['dial_code'] }})</option>
                     {% endfor %}
                 </select>
+                <small class="error mb-4 pb-2 px-2"></small>
             </div>
             <div class="col-sm-6">
-                <input type="phone" id="phone" name="phone" class="form-control mb-4 p-2 txt" placeholder="10-digit Mobile Number" required>
+                <input type="phone" id="phone" name="phone" class="form-control mb-1 txt" placeholder="10-digit Mobile Number" required>
+                <small class="error mb-4 pb-2 px-2"></small>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <input type="text" id="time-out" name="time-out" class="form-control mb-4 p-2 time-class txt" placeholder="Check-Out Time" required>
+                <input type="text" id="time-out" name="time-out" class="form-control mb-1 px-2 txt" placeholder="Check-Out Time" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <small class="time-out-error mb-4 pb-2 px-2"></small>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <button class="btn btn-md btn-block my-3" type="submit">CHECK OUT</button>
+                <button class="btn btn-md btn-block my-3" type="submit" id="submit-btn">CHECK OUT</button>
             </div>
             <div class="col-sm-6">
                 <a href="{{ url_for('check_in')}}" class="btn btn-md btn-block my-3">BACK HOME</a>

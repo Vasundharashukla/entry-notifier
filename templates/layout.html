@@ -29,9 +29,9 @@
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         border-bottom-width: 1px;
-        -webkit-transition-duration: 0.8s;
+        -webkit-transition-duration: 0.2s;
         /* Safari */
-        transition-duration: 0.8s;
+        transition-duration: 0.2s;
         /*        font-weight: 500;*/
     }
 
@@ -41,12 +41,16 @@
         box-shadow: none !important;
         border-bottom-width: 2px;
         border-bottom-color: royalblue;
-         -webkit-transition-duration: 0.8s;
+        -webkit-transition-duration: 0.2s;
         /* Safari */
-        transition-duration: 0.8s;
+        transition-duration: 0.2s;
     }
 
-
+    .btn:focus{
+        outline: 0px !important;
+        -webkit-appearance: none;
+        box-shadow: none !important;
+    }
 
     .h3,
     .btn {
@@ -110,7 +114,266 @@
         scrollPollInterval: 20
     }
     $('.aniview').AniView(options);
-   
+    $('.error').css({
+        'color': 'red'
+    });
+    var name, phone, code, email, ti, to, host, address;
+    name = phone = code = email = ti = to = host = address = 0;
+    $(document).ready(function() {
+        $('#name').on('click keyup change focus', function() {
+            if ($(this).val().length < 5) {
+                $(this).next().text("Name should have atleast 5 characters. :(");
+                $(this).next().css({
+                    'color': 'red'
+                });
+                $(this).css({
+                    'border-bottom-color': 'red'
+                });
+                name = 0;
+            } else {
+                $(this).next().css({
+                    'color': 'forestgreen'
+                });
+                $(this).next().text("Accepted! :)");
+                $(this).css({
+                    'border-bottom-color': 'forestgreen'
+                });
+                name = 1;
+            }
+        });
+
+        $('#phone').on('click keyup change focus', function() {
+            if ($(this).val().length != 10 || !(/[0-9]/.test($(this).val()))) {
+                $(this).next().text("Invalid Phone Number :(");
+                $(this).next().css({
+                    'color': 'red'
+                });
+                $(this).css({
+                    'border-bottom-color': 'red'
+                });
+                phone = 0;
+            } else {
+                $(this).next().text("Accepted! :)");
+                $(this).next().css({
+                    'color': 'forestgreen'
+                });
+                $(this).css({
+                    'border-bottom-color': 'forestgreen'
+                });
+                phone = 1;
+            }
+        });
+        
+        $('#address').on('click keyup change focus', function() {
+            if ($(this).val().length < 10) {
+                $(this).next().text("Address should have atleast 10 characters. :(");
+                $(this).next().css({
+                    'color': 'red'
+                });
+                $(this).css({
+                    'border-bottom-color': 'red'
+                });
+                address = 0;
+            } else {
+                $(this).next().css({
+                    'color': 'forestgreen'
+                });
+                $(this).next().text("Accepted! :)");
+                $(this).css({
+                    'border-bottom-color': 'forestgreen'
+                });
+                address = 1;
+            }
+        });
+
+        $('#email').on('click keyup change focus', function() {
+            var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            if (!reg.test($(this).val())) {
+                $(this).next().text("Invalid Email Id :(");
+                $(this).next().css({
+                    'color': 'red'
+                });
+                $(this).css({
+                    'border-bottom-color': 'red'
+                });
+                email = 0;
+            } else {
+                $(this).next().text("Accepted! :)");
+                $(this).next().css({
+                    'color': 'forestgreen'
+                });
+                $(this).css({
+                    'border-bottom-color': 'forestgreen'
+                });
+                email = 1;
+            }
+        });
+
+        $('#code').on('click keyup focus change', function() {
+            if ("null" === $(this).val()) {
+                $(this).next().text("Please select your country code. :(");
+                $(this).next().css({
+                    'color': 'red'
+                });
+                $(this).css({
+                    'border-bottom-color': 'red'
+                });
+                code = 0;
+            } else {
+                $(this).next().text("Accepted! :)");
+                $(this).next().css({
+                    'color': 'forestgreen'
+                });
+                $(this).css({
+                    'border-bottom-color': 'forestgreen'
+                });
+                code = 1;
+            }
+        });
+        
+        $('#host').on('click change focus keyup', function() {
+            if ("null" === $(this).val()) {
+                $(this).next().text("Please select a host. :(");
+                $(this).next().css({
+                    'color': 'red'
+                });
+                $(this).css({
+                    'border-bottom-color': 'red'
+                });
+                host = 0;
+            } else {
+                $(this).next().text("Accepted! :)");
+                $(this).next().css({
+                    'color': 'forestgreen'
+                });
+                $(this).css({
+                    'border-bottom-color': 'forestgreen'
+                });
+                host = 1;
+            }
+        });
+        
+        $('#time-in').on('click change keyup focus', function() {
+            var time = new Date();
+            var k = time.getHours()+':'+time.getMinutes();
+            console.log(k);
+            console.log($(this).val())
+            if ("" === $(this).val()) {
+                $('.time-in-error').text("Please select a check-in time. :(");
+                $('.time-in-error').css({
+                    'color': 'red'
+                });
+                $(this).css({
+                    'border-bottom-color': 'red'
+                });
+                ti = 0;
+            } else if ($(this).val() < k) {
+                $('.time-in-error').text("Check in time cannot be less than current time. :(");
+                $('.time-in-error').css({
+                    'color': 'red'
+                });
+                $(this).css({
+                    'border-bottom-color': 'red'
+                });
+                ti = 0;
+            } else if ($(this).val() >= $('#time-out').val()) {
+                $('.time-out-error').text("Check out time should be greater than check in time. :(");
+                $('.time-out-error').css({
+                    'color': 'red'
+                });
+                $(this).css({
+                    'border-bottom-color': 'red'
+                });
+                to = 0;
+                $('.time-in-error').text('Accepted! :)')
+                $('.time-in-error').css({
+                    'color': 'forestgreen'
+                });
+                $(this).css({
+                    'border-bottom-color': 'forestgreen'
+                });
+                ti = 1;
+            } else {
+                $('.time-in-error').text('Accepted! :)')
+                $('.time-in-error').css({
+                    'color': 'forestgreen'
+                });
+                $(this).css({
+                    'border-bottom-color': 'forestgreen'
+                });
+                ti = 1;
+            }
+        });
+        
+        $('#time-out, .clock').on('click change keyup focus', function() {
+            var time = new Date();
+            var k = time.getHours()+':'+time.getMinutes();
+            var thi = $('#time-out');
+            console.log(k);
+            console.log($(thi).val());
+            console.log($('#time-in').val());
+            if ("" === $(thi).val()) {
+                $('.time-out-error').text("Please select a check-out time. :(");
+                $('.time-out-error').css({
+                    'color': 'red'
+                });
+                $(thi).css({
+                    'border-bottom-color': 'red'
+                });
+                to = 0;
+            } else if($(thi).val() <= $('#time-in').val()){
+                $('.time-out-error').text("Check out time should be greater than check in time. :(");
+                $('.time-out-error').css({
+                    'color': 'red'
+                });
+                $(thi).css({
+                    'border-bottom-color': 'red'
+                });
+                to = 0;
+            } else if("" === $('#time-in').val()){
+                $('.time-in-error').text("Please fill check in time. :(");
+                $('.time-in-error').css({
+                    'color': 'red'
+                });
+                $('#time-in').css({
+                    'border-bottom-color': 'red'
+                });
+                to = 0;
+                ti = 0;
+            } else if ($(thi).val() < k) {
+                $('.time-out-error').text("Check out time cannot be less than current time. :(");
+                $('.time-out-error').css({
+                    'color': 'red'
+                });
+                $(thi).css({
+                    'border-bottom-color': 'red'
+                });
+                ti = 0;
+            } else {
+                $('.time-out-error').text('Accepted! :)')
+                $('.time-out-error').css({
+                    'color': 'forestgreen'
+                });
+                $(thi).css({
+                    'border-bottom-color': 'forestgreen'
+                });
+                to = 1;
+                console.log($(thi).val() < k);
+            }
+        });
+
+        $("#submit-btn").on("click", function(event) {
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            console.log(name + ' ' + host + ' ' + phone + ' ' + code + ' ' + ti + ' ' + to + ' ' + email);
+            if (name && host && phone && code && ti && to && email) {
+                console.log('submitted');
+                $('#form').submit()
+            } else {
+                alert("Please fill all the fields before submitting.");
+            }
+        });
+
+    });
 
 </script>
 

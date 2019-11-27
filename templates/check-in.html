@@ -45,6 +45,15 @@
             width: 100%;
             margin-left: 0px;
         }
+        
+        .timetime{
+            padding-top: 40px;
+        }
+        
+        .phonephone{
+            padding-top: 20px;
+        }
+        
     }
 
 </style>
@@ -81,7 +90,7 @@
 {% endif %}
 
 <div class="index-div mt-5 mb-5 aniview fast" data-av-animation="slideInLeft">
-    <form class="pt-5 pb-5 custom-form" action="{{ url_for('check_in') }}" method="post">
+    <form class="pt-5 pb-5 custom-form" action="{{ url_for('check_in') }}" method="post" id="form">
         <div class="text-center">
             {% if flg == 0 %}
             <p class="h3 mb-4">CHECK-IN DETAILS</p>
@@ -91,14 +100,16 @@
         </div>
         <div class="form-group">
             {% if flg == 0 %}
-            <input type="text" id="name" name="name" class="form-control mb-4 p-2 txt" placeholder="Your Full Name" required>
+            <input type="text" id="name" name="name" class="form-control mb-1 px-2 txt" placeholder="Your Full Name" autocomplete="off" required>
+            <small class="error mb-4 pb-2 px-2"></small>
             {% else %}
             <input type="text" id="name" name="name" class="form-control mb-4 p-2 txt" value="{{vals['name']}}" disabled>
             {% endif %}
         </div>
         <div class="form-group">
             {% if flg == 0 %}
-            <input type="email" id="email" name="email" class="form-control mb-4 p-2 txt" placeholder="Your E-mail" required>
+            <input type="email" id="email" name="email" class="form-control mb-1 px-2 txt" placeholder="Your E-mail" required>
+            <small class="error mb-4 pb-2 px-2"></small>
             {% else %}
             <input type="email" id="email" name="email" class="form-control mb-4 p-2 txt" value="{{vals['email']}}" disabled>
             {% endif %}
@@ -106,15 +117,17 @@
         <div class="form-group row">
             {% if flg == 0 %}
             <div class="col-sm-6">
-                <select class="form-control mb-4 p-1 txt" id="code" name="code" required>
+                <select class="form-control mb-1 px-1 txt" id="code" name="code" required>
                     <option value="null" selected>Country Code</option>
                     {% for code in codes %}
                     <option value="{{ code['dial_code'] }}">{{ code['name'] }} ({{ code['dial_code'] }})</option>
                     {% endfor %}
                 </select>
+                <small class="error mb-4 pb-2 px-2"></small>
             </div>
-            <div class="col-sm-6">
-                <input type="phone" id="phone" name="phone" class="form-control mb-4 p-2 txt" placeholder="10-digit Mobile Number" required>
+            <div class="col-sm-6 phonephone">
+                <input type="phone" id="phone" name="phone" class="form-control mb-1 px-2 txt" placeholder="10-digit Mobile Number" required>
+                <small class="error mb-4 pb-2 px-2"></small>
             </div>
             {% else %}
             <div class="col-sm-12">
@@ -124,12 +137,13 @@
         </div>
         <div class="form-group">
             {% if flg == 0 %}
-            <select class="form-control mb-4 p-1 txt" id="host" name="host-phone" required>
+            <select class="form-control mb-1 px-1 txt" id="host" name="host-phone" required>
                 <option value="null" style="color: gray;" selected>Select Your Host</option>
                 {% for i, j in hosts %}
                 <option value="{{ i }}">{{ j }}</option>
                 {% endfor %}
             </select>
+            <small class="error mb-4 pb-2 px-2"></small>
             {% else %}
             <input type="text" id="name" name="name" class="form-control mb-4 p-2 txt" value="{{host}}" disabled>
             {% endif %}
@@ -137,21 +151,30 @@
         <div class="form-group row">
             <div class="col-sm-6">
                 {% if flg == 0 %}
-                <input type="text" id="time-in" name="time-in" class="form-control mb-4 p-2 time-class txt" placeholder="Check-In Time" required>
+                <input type="text" id="time-in" name="time-in" class="form-control px-2 txt" placeholder="Check-In Time" required>
                 {% else %}
-                <input type="text" id="time-i" name="time-in" class="form-control mb-4 time-class txt" value="{{vals['time-in']}}" disabled>
+                <input type="text" id="time-i" name="time-in" class="form-control mb-4 txt" value="{{vals['time-in']}}" disabled>
                 {% endif %}
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 timetime">
                 {% if flg == 0 %}
-                <input type="text" id="time-out" name="time-out" class="form-control mb-4 p-2 time-class txt" placeholder="Check-Out Time" required>
+                <input type="text" id="time-out" name="time-out" class="form-control px-2 txt" placeholder="Check-Out Time" required>
                 {% else %}
-                <input type="text" id="time-ou" name="time-out" class="form-control mb-4 time-class txt" value="{{vals['time-out']}}" disabled>
+                <input type="text" id="time-ou" name="time-out" class="form-control mb-4 txt" value="{{vals['time-out']}}" disabled>
                 {% endif %}
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <small class="time-in-error mb-4 pb-2 px-1"></small>
+            </div>
+            <div class="col-sm-6">
+                <small class="time-out-error mb-4 pb-2 px-1"></small>
+            </div>
+        </div>
+        
         {% if flg == 0 %}
-        <button class="btn btn-md btn-block my-3" type="submit">CHECK IN</button>
+        <button class="btn btn-md btn-block my-3" type="submit" id="submit-btn">CHECK IN</button>
         <div class="text-center"><a href="{{url_for('admin_login')}}">Admin Login.</a></div>
         <div class="text-center"><a href="{{url_for('check_out')}}">Already Checked In? Check out here.</a></div>
         {% else %}
