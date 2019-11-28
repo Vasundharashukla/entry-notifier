@@ -97,7 +97,7 @@ A workplace can have multiple hosts therefore the visitor will have the option t
 
 ## Deployment & Testing
 
-The application has been deployed on heroku and can be accessed [here](https://entry-recorder.herokuapp.com).
+The application has been deployed on heroku and can be accessed [here](https://entry-notifier.herokuapp.com).
 
 To test/run the app locally follow the steps given below.
 
