@@ -121,8 +121,9 @@
     name = phone = code = email = ti = to = host = address = 0;
     $(document).ready(function() {
         $('#name').on('click keyup change focus', function() {
-            if ($(this).val().length < 5) {
-                $(this).next().text("Name should have atleast 5 characters. :(");
+            console.log(!/^[a-zA-Z]+$/.test($(this).val()));
+            if (!(/^[a-zA-Z]+$/.test($(this).val())) || $(this).val().length < 5) {
+                $(this).next().text("Name should have atleast 5 characters and should contain only alphabets. :(");
                 $(this).next().css({
                     'color': 'red'
                 });
@@ -143,8 +144,8 @@
         });
 
         $('#phone').on('click keyup change focus', function() {
-            if ($(this).val().length != 10 || !(/[0-9]/.test($(this).val()))) {
-                $(this).next().text("Invalid Phone Number :(");
+            if ($(this).val().length != 10 || !(/[0-9]+$/.test($(this).val()))) {
+                $(this).next().text("Invalid Phone Number. :(");
                 $(this).next().css({
                     'color': 'red'
                 });
@@ -253,7 +254,7 @@
             }
         });
         
-        $('#time-in').on('click change keyup focus', function() {
+        $('#time-in .clock').on('click change keyup focus', function() {
             var time = new Date();
             var k = time.getHours()+':'+time.getMinutes();
             console.log(k);
