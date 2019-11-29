@@ -53,7 +53,6 @@
         .phonephone{
             padding-top: 20px;
         }
-        
     }
 
 </style>
@@ -174,6 +173,7 @@
         </div>
         
         {% if flg == 0 %}
+        <div class="g-recaptcha pt-2" name="g-recaptcha-response" data-sitekey="{{ sitekey }}"></div>
         <button class="btn btn-md btn-block my-3" type="submit" id="submit-btn">CHECK IN</button>
         <div class="text-center"><a href="{{url_for('admin_login')}}">Admin Login.</a></div>
         <div class="text-center"><a href="{{url_for('check_out')}}">Already Checked In? Check out here.</a></div>

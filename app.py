@@ -22,8 +22,9 @@ mail_settings = {
     "MAIL_PORT": 465,
     "MAIL_USE_TLS": False,
     "MAIL_USE_SSL": True,
-    "MAIL_USERNAME": '<your gmail id>',
-    "MAIL_PASSWORD": '<gmail password>'
+    "MAIL_USERNAME": 'vasundharashukla799@gmail.com',
+    "MAIL_PASSWORD": 'V@su7998',
+    "MAIL_DEFAULT_SENDER": 'tester'
 }
 
 app.config.update(mail_settings)
@@ -47,8 +48,8 @@ def send_message(msg, phone):
 
     # config sms api
     req_params = {
-    'apikey': '<way2sms api key>',
-    'secret': '<way2sms secret>',
+    'apikey': 'OKFMCF55YZGNEIQ01JJ7OY8TY2MZ4N9I',
+    'secret': '7GULI867MEP4WDKB',
     'usetype': 'stage',
     'phone': phone,
     'message': msg,
@@ -62,7 +63,7 @@ def send_message(msg, phone):
 def send_mail(message, email):
     with app.app_context():
         msg = Message(subject="check-in/check-out notification",
-                      sender=app.config.get("MAIL_USERNAME"),
+                      sender=app.config.get("MAIL_DEFAULT_SENDER"), #app.config.get("MAIL_USERNAME"),
                       recipients=email, # replace with your email for testing
                       body=message)
         mail.send(msg)
@@ -105,11 +106,24 @@ def scheduled(message, phone, email, date, vis):
         send_message(message, phone)
         res = firebase.patch(f'/users/{phone}/{date}/{vis}/', res)
 
+def is_human(captcha_response):
+    secret = "6LeQNMUUAAAAADN-jvbUHmvn9WgMUfVsXdTcvQ2U"
+    payload = {'response':captcha_response, 'secret':secret}
+    response = requests.post("https://www.google.com/recaptcha/api/siteverify", payload)
+    print(json.loads(response.text))
+    response_text = json.loads(response.text)
+    return response_text['success']
+
 # route to check-in or home page
 @app.route('/', methods = ['GET'])
 @app.route('/check-in', methods = ['GET', 'POST'])
 def check_in():
     if request.method == 'POST':
+        
+        if not is_human(request.form['g-recaptcha-response']):
+            flash('BOTS NOT ALLOWED!!')
+            return redirect(url_for('check_in'))
+        
         l = ['email', 'name', 'time-in', 'time-out', 'host-phone']
         user_det, d = dict(), dict()
 
@@ -198,13 +212,17 @@ def check_in():
     hosts = []
     if host_names is not None:
         hosts = [(k, v['name']) for k, v in host_names.items()]
-    return render_template('check-in.html', flg=0, hosts = hosts, codes = country_codes)
+    return render_template('check-in.html', flg=0, hosts = hosts, codes = country_codes, sitekey = '6LeQNMUUAAAAAFFAy0CvIBaerjF52KD87CIaAx6V')
 
 # route for check-out page
 @app.route('/check-out', methods = ['GET', 'POST'])
 def check_out():
 
     if request.method == 'POST':
+        if not is_human(request.form['g-recaptcha-response']):
+            flash('BOTS NOT ALLOWED!!')
+            return redirect(url_for('check_in'))
+        
         try:
             l = ['time-out', 'phone']
             details = dict()
@@ -262,12 +280,16 @@ def check_out():
             flash(e)
             return render_template('check-out.html', flg=-1)
                 
-    return render_template('check-out.html', flg = 0, codes = country_codes)
+    return render_template('check-out.html', flg = 0, codes = country_codes, sitekey = '6LeQNMUUAAAAAFFAy0CvIBaerjF52KD87CIaAx6V')
 
 # route for admin-login page
 @app.route('/admin', methods = ['GET', 'POST'])
 def admin_login():
     if request.method == 'POST':
+
+        if not is_human(request.form['g-recaptcha-response']):
+            flash('BOTS NOT ALLOWED!!')
+            return redirect(url_for('check_in'))
 
         # getting login form data
         user = request.form['user']
@@ -284,7 +306,7 @@ def admin_login():
             flash('LOGIN FAILED!!!')
             return redirect(url_for('admin_login'))
 
-    return render_template('admin-login.html', flg = 0)
+    return render_template('admin-login.html', flg = 0, sitekey = '6LeQNMUUAAAAAFFAy0CvIBaerjF52KD87CIaAx6V')
 
 # route for admin-logout
 @app.route('/admin-logout', methods = ['GET'])
@@ -314,6 +336,10 @@ def register_host():
     
     session['logged-in'] = 1
     if request.method == 'POST':
+        if not is_human(request.form['g-recaptcha-response']):
+            flash('BOTS NOT ALLOWED!!')
+            return redirect(url_for('check_in'))
+        
         l = ['email', 'name', 'address', 'phone']
         details = dict()
 
@@ -372,7 +398,7 @@ def register_host():
             send_mail(f'Dear {details["name"]},\nYou have been registered as host at EMAIL NOTIFIER.\n-Admin', [details["email"]])
             return render_template('new-host.html', flg=1)
                         
-    return render_template('new-host.html', flg=0, codes = country_codes)
+    return render_template('new-host.html', flg=0, codes = country_codes, sitekey = '6LeQNMUUAAAAAFFAy0CvIBaerjF52KD87CIaAx6V')
     
 
 if __name__ == "__main__":

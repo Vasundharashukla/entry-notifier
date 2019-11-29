@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
 <style>
-
     .index-div {
         width: 53%;
         margin-left: 23%;
@@ -20,10 +19,19 @@
 
     }
 
+    .g-recaptcha {
+        padding-left: 8%;
+    }
+
     @media screen and (min-width: 1024px) {
         .index-div {
             padding-left: 10%;
             padding-right: 10%;
+        }
+
+        .btn {
+            width: 40%;
+            margin-left: 30%;
         }
     }
 
@@ -34,6 +42,16 @@
             padding-left: 5%;
             padding-right: 5%;
             box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .g-recaptcha {
+            padding-left: 31%;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .g-recaptcha {
+            padding-left: 0;
         }
     }
 
@@ -81,6 +99,7 @@
         <div class="form-group">
             <input type="password" id="pass" name="pass" class="form-control mb-4 p-0 txt" placeholder="Enter Password">
         </div>
+        <div class="g-recaptcha pt-2" name="g-recaptcha-response" data-sitekey="{{ sitekey }}"></div>
         <button class="btn btn-md btn-block my-3" type="submit">LOG IN</button>
         <div class="text-center"><a href="{{url_for('check_in')}}">Back Home</a></div>
     </form>

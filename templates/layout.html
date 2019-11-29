@@ -18,6 +18,7 @@
     <link href='https://fonts.googleapis.com/css?family=Amaranth' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Acme' rel='stylesheet'>
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <style>
     .txt {
@@ -71,6 +72,11 @@
         /*        border: white 1px solid;*/
         /*        margin-top: 5%;*/
     }
+    
+     .g-recaptcha{
+        padding-left: 21.5%;
+    }
+    
 
     @media screen and (max-width: 600px) {
 
@@ -82,6 +88,17 @@
 
         .head-div h1 {
             font-size: 40px;
+        }
+        
+         .g-recaptcha{
+            padding-left: 0;
+        }
+        
+    }
+    
+    @media screen and(max-width: 600px){
+        .g-recaptcha{
+            padding-left: 30%;
         }
     }
 
@@ -121,8 +138,8 @@
     name = phone = code = email = ti = to = host = address = 0;
     $(document).ready(function() {
         $('#name').on('click keyup change focus', function() {
-            console.log(!/^[a-zA-Z]+$/.test($(this).val()));
-            if (!(/^[a-zA-Z]+$/.test($(this).val())) || $(this).val().length < 5) {
+            console.log(!/^[ a-zA-Z]+$/.test($(this).val()));
+            if (!(/^[ a-zA-Z]+$/.test($(this).val())) || $(this).val().length < 5) {
                 $(this).next().text("Name should have atleast 5 characters and should contain only alphabets. :(");
                 $(this).next().css({
                     'color': 'red'
@@ -254,35 +271,36 @@
             }
         });
         
-        $('#time-in .clock').on('click change keyup focus', function() {
+        $('#time-in, .clock').on('click change keyup focus', function() {
             var time = new Date();
             var k = time.getHours()+':'+time.getMinutes();
             console.log(k);
-            console.log($(this).val())
-            if ("" === $(this).val()) {
+            var thi = $('#time-in');
+            console.log($(thi).val())
+            if ("" === $(thi).val()) {
                 $('.time-in-error').text("Please select a check-in time. :(");
                 $('.time-in-error').css({
                     'color': 'red'
                 });
-                $(this).css({
+                $(thi).css({
                     'border-bottom-color': 'red'
                 });
                 ti = 0;
-            } else if ($(this).val() < k) {
+            } else if ($(thi).val() < k) {
                 $('.time-in-error').text("Check in time cannot be less than current time. :(");
                 $('.time-in-error').css({
                     'color': 'red'
                 });
-                $(this).css({
+                $(thi).css({
                     'border-bottom-color': 'red'
                 });
                 ti = 0;
-            } else if ($(this).val() >= $('#time-out').val()) {
+            } else if ($(thi).val() >= $('#time-out').val()) {
                 $('.time-out-error').text("Check out time should be greater than check in time. :(");
                 $('.time-out-error').css({
                     'color': 'red'
                 });
-                $(this).css({
+                $(thi).css({
                     'border-bottom-color': 'red'
                 });
                 to = 0;
@@ -290,7 +308,7 @@
                 $('.time-in-error').css({
                     'color': 'forestgreen'
                 });
-                $(this).css({
+                $(thi).css({
                     'border-bottom-color': 'forestgreen'
                 });
                 ti = 1;
@@ -299,7 +317,7 @@
                 $('.time-in-error').css({
                     'color': 'forestgreen'
                 });
-                $(this).css({
+                $(thi).css({
                     'border-bottom-color': 'forestgreen'
                 });
                 ti = 1;
@@ -339,7 +357,6 @@
                 $('#time-in').css({
                     'border-bottom-color': 'red'
                 });
-                to = 0;
                 ti = 0;
             } else if ($(thi).val() < k) {
                 $('.time-out-error').text("Check out time cannot be less than current time. :(");
