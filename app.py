@@ -22,8 +22,8 @@ mail_settings = {
     "MAIL_PORT": 465,
     "MAIL_USE_TLS": False,
     "MAIL_USE_SSL": True,
-    "MAIL_USERNAME": 'vasundharashukla799@gmail.com',
-    "MAIL_PASSWORD": 'V@su7998',
+    "MAIL_USERNAME": '<your gmail>',
+    "MAIL_PASSWORD": '<your password>',
     "MAIL_DEFAULT_SENDER": 'tester'
 }
 
@@ -35,21 +35,23 @@ jsonfile = open('codes.json', encoding = "utf-8")
 country_codes = json.load(jsonfile)
 jsonfile.close()
 
+sitekey = '<recaptcha sitekey>'
+
 # running the task scheduler
 # the scheduler enables us to send emails and sms in the background
 scheduler = BackgroundScheduler({'apscheduler.timezone': 'Asia/Calcutta'})
 scheduler.start()
 
 # initialising the firebase database
-firebase = firebase.FirebaseApplication('https://entry-app-ff962.firebaseio.com/', None)
+firebase = firebase.FirebaseApplication('<firebase database address>', None)
 
 # method to send messages using way2sms api.
 def send_message(msg, phone):
 
     # config sms api
     req_params = {
-    'apikey': 'OKFMCF55YZGNEIQ01JJ7OY8TY2MZ4N9I',
-    'secret': '7GULI867MEP4WDKB',
+    'apikey': '<apikey>',
+    'secret': '<secret>',
     'usetype': 'stage',
     'phone': phone,
     'message': msg,
@@ -107,7 +109,7 @@ def scheduled(message, phone, email, date, vis):
         res = firebase.patch(f'/users/{phone}/{date}/{vis}/', res)
 
 def is_human(captcha_response):
-    secret = "6LeQNMUUAAAAADN-jvbUHmvn9WgMUfVsXdTcvQ2U"
+    secret = "<recaptcha secret>"
     payload = {'response':captcha_response, 'secret':secret}
     response = requests.post("https://www.google.com/recaptcha/api/siteverify", payload)
     print(json.loads(response.text))
@@ -212,7 +214,7 @@ def check_in():
     hosts = []
     if host_names is not None:
         hosts = [(k, v['name']) for k, v in host_names.items()]
-    return render_template('check-in.html', flg=0, hosts = hosts, codes = country_codes, sitekey = '6LeQNMUUAAAAAFFAy0CvIBaerjF52KD87CIaAx6V')
+    return render_template('check-in.html', flg=0, hosts = hosts, codes = country_codes, sitekey = sitekey)
 
 # route for check-out page
 @app.route('/check-out', methods = ['GET', 'POST'])
@@ -280,7 +282,7 @@ def check_out():
             flash(e)
             return render_template('check-out.html', flg=-1)
                 
-    return render_template('check-out.html', flg = 0, codes = country_codes, sitekey = '6LeQNMUUAAAAAFFAy0CvIBaerjF52KD87CIaAx6V')
+    return render_template('check-out.html', flg = 0, codes = country_codes, sitekey = sitekey)
 
 # route for admin-login page
 @app.route('/admin', methods = ['GET', 'POST'])
@@ -306,7 +308,7 @@ def admin_login():
             flash('LOGIN FAILED!!!')
             return redirect(url_for('admin_login'))
 
-    return render_template('admin-login.html', flg = 0, sitekey = '6LeQNMUUAAAAAFFAy0CvIBaerjF52KD87CIaAx6V')
+    return render_template('admin-login.html', flg = 0, sitekey = sitekey)
 
 # route for admin-logout
 @app.route('/admin-logout', methods = ['GET'])
@@ -398,7 +400,7 @@ def register_host():
             send_mail(f'Dear {details["name"]},\nYou have been registered as host at EMAIL NOTIFIER.\n-Admin', [details["email"]])
             return render_template('new-host.html', flg=1)
                         
-    return render_template('new-host.html', flg=0, codes = country_codes, sitekey = '6LeQNMUUAAAAAFFAy0CvIBaerjF52KD87CIaAx6V')
+    return render_template('new-host.html', flg=0, codes = country_codes, sitekey = sitekey)
     
 
 if __name__ == "__main__":
