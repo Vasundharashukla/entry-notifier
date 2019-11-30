@@ -20,6 +20,9 @@
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
+<script>
+var name, phone, code, email, ti, to, host, address;    
+</script>
 <style>
     .txt {
         font-family: 'Bitter', serif;
@@ -134,13 +137,12 @@
     $('.error').css({
         'color': 'red'
     });
-    var name, phone, code, email, ti, to, host, address;
-    name = phone = code = email = ti = to = host = address = 0;
+    
     $(document).ready(function() {
         $('#name').on('click keyup change focus', function() {
-            console.log(!/^[ a-zA-Z]+$/.test($(this).val()));
-            if (!(/^[ a-zA-Z]+$/.test($(this).val())) || $(this).val().length < 5) {
-                $(this).next().text("Name should have atleast 5 characters and should contain only alphabets. :(");
+            //console.log($(this).val().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, " ").split(' ').join(''));
+            if (!(/^[ a-zA-Z]+$/.test($(this).val())) || $(this).val().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, " ").split(' ').join('').length < 5) {
+                $(this).next().text("Name should have atleast 5 characters and should contain only alphabets and spaces. :(");
                 $(this).next().css({
                     'color': 'red'
                 });
@@ -183,7 +185,7 @@
         });
         
         $('#address').on('click keyup change focus', function() {
-            if ($(this).val().length < 10) {
+            if ($(this).val().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, " ").split(' ').join('').length < 10) {
                 $(this).next().text("Address should have atleast 10 characters. :(");
                 $(this).next().css({
                     'color': 'red'
@@ -383,7 +385,7 @@
         $("#submit-btn").on("click", function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
             console.log(name + ' ' + host + ' ' + phone + ' ' + code + ' ' + ti + ' ' + to + ' ' + email);
-            if (name && host && phone && code && ti && to && email) {
+            if (name && host && phone && code && ti && to && email && address) {
                 console.log('submitted');
                 $('#form').submit()
             } else {

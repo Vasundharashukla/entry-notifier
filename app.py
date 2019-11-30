@@ -22,8 +22,8 @@ mail_settings = {
     "MAIL_PORT": 465,
     "MAIL_USE_TLS": False,
     "MAIL_USE_SSL": True,
-    "MAIL_USERNAME": '<your gmail>',
-    "MAIL_PASSWORD": '<your password>',
+    "MAIL_USERNAME": 'vasundharashukla799@gmail.com',
+    "MAIL_PASSWORD": 'V@su7998',
     "MAIL_DEFAULT_SENDER": 'tester'
 }
 
@@ -35,7 +35,7 @@ jsonfile = open('codes.json', encoding = "utf-8")
 country_codes = json.load(jsonfile)
 jsonfile.close()
 
-sitekey = '<recaptcha sitekey>'
+sitekey = '6LeQNMUUAAAAAFFAy0CvIBaerjF52KD87CIaAx6V'
 
 # running the task scheduler
 # the scheduler enables us to send emails and sms in the background
@@ -43,15 +43,15 @@ scheduler = BackgroundScheduler({'apscheduler.timezone': 'Asia/Calcutta'})
 scheduler.start()
 
 # initialising the firebase database
-firebase = firebase.FirebaseApplication('<firebase database address>', None)
+firebase = firebase.FirebaseApplication('https://entry-app-ff962.firebaseio.com/', None)
 
 # method to send messages using way2sms api.
 def send_message(msg, phone):
 
     # config sms api
     req_params = {
-    'apikey': '<apikey>',
-    'secret': '<secret>',
+    'apikey': 'OKFMCF55YZGNEIQ01JJ7OY8TY2MZ4N9I',
+    'secret': '7GULI867MEP4WDKB',
     'usetype': 'stage',
     'phone': phone,
     'message': msg,
@@ -109,7 +109,7 @@ def scheduled(message, phone, email, date, vis):
         res = firebase.patch(f'/users/{phone}/{date}/{vis}/', res)
 
 def is_human(captcha_response):
-    secret = "<recaptcha secret>"
+    secret = "6LeQNMUUAAAAADN-jvbUHmvn9WgMUfVsXdTcvQ2U"
     payload = {'response':captcha_response, 'secret':secret}
     response = requests.post("https://www.google.com/recaptcha/api/siteverify", payload)
     print(json.loads(response.text))
@@ -200,8 +200,8 @@ def check_in():
             host_det['phone'] = user_det['host-phone']
 
             # sending messages and scheduling job
-            send_check_in_message(host_det, user_det)            
-            job = sched_job(date, user_det, host_det, vis)
+            #send_check_in_message(host_det, user_det)            
+            #job = sched_job(date, user_det, host_det, vis)
             
             return render_template('check-in.html', flg = 1, vals = user_det, host = host_det['name'])
         
@@ -213,7 +213,7 @@ def check_in():
     host_names = firebase.get('/host/', None)
     hosts = []
     if host_names is not None:
-        hosts = [(k, v['name']) for k, v in host_names.items()]
+        hosts = [(k, v['name'], v['address'], v['email']) for k, v in host_names.items()]
     return render_template('check-in.html', flg=0, hosts = hosts, codes = country_codes, sitekey = sitekey)
 
 # route for check-out page
@@ -223,7 +223,7 @@ def check_out():
     if request.method == 'POST':
         if not is_human(request.form['g-recaptcha-response']):
             flash('BOTS NOT ALLOWED!!')
-            return redirect(url_for('check_in'))
+            return redirect(url_for('check_out'))
         
         try:
             l = ['time-out', 'phone']
@@ -291,7 +291,7 @@ def admin_login():
 
         if not is_human(request.form['g-recaptcha-response']):
             flash('BOTS NOT ALLOWED!!')
-            return redirect(url_for('check_in'))
+            return redirect(url_for('admin_login'))
 
         # getting login form data
         user = request.form['user']
@@ -334,7 +334,7 @@ def register_host():
     # redirecting to homepage
     if not session.pop('logged-in', None):
         flash('NOT AUTHORIZED TO ACCESS THIS PAGE!')
-        return redirect(url_for('check_in'))
+        return redirect(url_for('register_host'))
     
     session['logged-in'] = 1
     if request.method == 'POST':
